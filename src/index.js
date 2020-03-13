@@ -1,9 +1,10 @@
 const { Client, Attachment, RichEmbed } = require('discord.js');
 const client = new Client();    // cient == bot
 const prefix = 'r!';
-const channelBotTest = '624089778052268042';
+const channelBotTest = '655143826977193995';
 const channelGeneral = '622613500329721886';
 const yearProgress = require('year-progress');
+var googleTranslate = require('google-translate')('AIzaSyCGkzW9kIIpluOtTizvEWs6J8iBWIj9ffI');
 
 client.on('ready', () => {
     console.log(`Bot is ready as ${client.user.tag}`);
@@ -16,7 +17,7 @@ client.on('ready', () => {
     // 72000000 - 20 horas
     setInterval(() => {
         let currentDate = new Date();
-        if (currentDate.getHours() === 14) {    // 9 am
+        if (currentDate.getHours() === 14) {    // 8 am
             if (currentDate.getMinutes() == 0) {
                 if (currentDate.getSeconds() == 0) {
                     const attachment = new Attachment('./src/img/artemio.jpg');
@@ -25,7 +26,7 @@ client.on('ready', () => {
             }
         }
 
-        if (currentDate.getHours() === 17) {    // 12 pm
+        if (currentDate.getHours() === 17) {    // 11 am
             if (currentDate.getMinutes() == 0) {
                 if (currentDate.getSeconds() == 0) {
                     const attachment = new Attachment('./src/img/chendo_frio.png');
@@ -33,8 +34,8 @@ client.on('ready', () => {
                 }
             }
         }
-
-        if (currentDate.getHours() === 19) {    // 5 pm
+        /*
+        if (currentDate.getHours() === 19) {    // 4 pm
             if (currentDate.getMinutes() == 0) {
                 if (currentDate.getSeconds() == 0) {
                     const attachment = new Attachment('./src/img/artemio.jpg');
@@ -43,17 +44,17 @@ client.on('ready', () => {
             }
         }
 
-        if (currentDate.getHours() === 3) {     // 10 pm
+        if (currentDate.getHours() === 3) {     // 9 pm
             if (currentDate.getMinutes() == 0) {
                 if (currentDate.getSeconds() == 0) {
                     const attachment = new Attachment('./src/img/artemio.jpg');
                     client.channels.get(channelGeneral).send(`Buenas noches, Artemio. 😴💤`, attachment);
                 }
             }
-        }
+        }*/
 
         if (currentDate.getDay() == 4) { // thursday
-            if (currentDate.getHours() == 15) { // 10 am
+            if (currentDate.getHours() == 15) { // 9 am
                 if (currentDate.getMinutes() == 0) {
                     if (currentDate.getSeconds() == 0) {
                         const attachment = new Attachment('./src/video/tomboy_thursday.mp4');
@@ -70,16 +71,29 @@ client.on('message', async message => {
 
     }*/
 
-    if (message.content === prefix + 'chendo') {
+    if (message.content.includes('r!es ') && !message.author.bot) {
+        let toTranslate = message.content.toString().slice(5);
+        googleTranslate.translate(toTranslate, 'es', function(err, translation) {
+          message.channel.send(translation.translatedText);
+        });
+    }
+    if (message.content.includes('r!en ') && !message.author.bot) {
+        let toTranslate = message.content.toString().slice(5);
+        googleTranslate.translate(toTranslate, 'en', function(err, translation) {
+          message.channel.send(translation.translatedText);
+        });
+    }
+
+    if (message.content === prefix + 'chendo' && !message.author.bot) {
         const attachment = new Attachment('./src/img/chendo_frio.png');
         message.channel.send(attachment);
     }
 
-    if (message.content === prefix + 'artemio') {
+    if (message.content === prefix + 'artemio' && !message.author.bot) {
         const attachment = new Attachment('./src/img/artemio.jpg');
 
         let currentDate = new Date();
-        
+
         if (currentDate.getHours() <= 1) {  // 8pm
             message.channel.send(`Tardes ya, Artemio`, attachment);
         }
@@ -97,31 +111,17 @@ client.on('message', async message => {
         }
     }
 
-    if (message.content === prefix + "bruh") {
+    if (message.content === prefix + "bruh" && !message.author.bot) {
         const attachment = new Attachment('./src/img/bruh.jpeg');
         message.channel.send(attachment);
     }
 
-    if (message.content === prefix + 'clear') {
-        if (message.author.tag === 'Reli#8831') {
-            const fetched = await message.channel.fetchMessages({limit: 100});
-            message.channel.bulkDelete(fetched);
-        }
-        else {
-            const embed = new RichEmbed()
-            .setTitle('Solo un administrador puede utilizar este comando.')
-            .setColor('#FF4C4C');
-
-        message.channel.send(embed);
-        }
-    }
-
-    if (message.content === prefix + 'chale') {
+    if (message.content === prefix + 'chale' && !message.author.bot) {
         const attachment = new Attachment('./src/img/chale.jpg');
         message.channel.send(attachment);
     }
 
-    if (message.content === prefix + 'niñomenso') {
+    if (message.content === prefix + 'niñomenso' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('This is a certified Niño Menso ™ Moment')
             .setColor('RANDOM');
@@ -129,7 +129,7 @@ client.on('message', async message => {
         message.channel.send(embed);
     }
 
-    if (message.content === prefix + 'yp') {
+    if (message.content === prefix + 'yp' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**Progreso del año:**')
             .setDescription(yearProgress().yearBar + " " + yearProgress().percent + "%")
@@ -138,13 +138,13 @@ client.on('message', async message => {
         message.channel.send(embed);
     }
 
-    if (message.content === prefix + 'time') {
+    if (message.content === prefix + 'time' && !message.author.bot) {
         let currentDate = new Date();
         message.channel.send(currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds());
     }
 
     // Comandos de ayuda
-    if (message.content === prefix + 'help') {
+    if (message.content === prefix + 'help' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**Lista de comandos**')
             .setDescription(
@@ -161,7 +161,7 @@ client.on('message', async message => {
             .setColor('#4CE0B3');
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help artemio') {
+    if (message.content === prefix + 'help artemio' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!artemio**')
             .setDescription(
@@ -171,7 +171,7 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help bruh') {
+    if (message.content === prefix + 'help bruh' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!bruh**')
             .setDescription(
@@ -181,7 +181,7 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help chale') {
+    if (message.content === prefix + 'help chale' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!chale**')
             .setDescription(
@@ -191,7 +191,7 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help chendo') {
+    if (message.content === prefix + 'help chendo' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!chendo**')
             .setDescription(
@@ -201,7 +201,7 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help niñomenso') {
+    if (message.content === prefix + 'help niñomenso' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!niñomenso**')
             .setDescription(
@@ -211,7 +211,7 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
-    if (message.content === prefix + 'help yp') {
+    if (message.content === prefix + 'help yp' && !message.author.bot) {
         const embed = new RichEmbed()
             .setTitle('**r!yp**')
             .setDescription(
@@ -221,6 +221,24 @@ client.on('message', async message => {
 
         message.channel.send(embed);
     }
+
+    if (message.content.startsWith('r!clear ') && !message.author.bot) {
+      if (message.member.roles.some(role => role.name === 'Admin')) {
+        let cant = parseInt(message.content.toString().slice(8))
+        if (!Number.isNaN(cant)) {
+          cant++;
+          const fetched = await message.channel.fetchMessages({limit: cant});
+          message.channel.bulkDelete(fetched);
+        }
+      }
+      else {
+        const embed = new RichEmbed()
+          .setTitle('Solo un administrador puede utilizar este comando.')
+          .setColor('#FF4C4C');
+
+      message.channel.send(embed);
+      }
+    }
 });
 
-client.login('NjI0MDkwMjc1NjA1OTA1NDI1.XYfztQ.vb6cgJtIl-aj_uCWJbsvFlMwrmI');
+client.login('NjI0MDkwMjc1NjA1OTA1NDI1.Xc9odQ.wTNTMqRKlS2Ve_0rq51p-IcBbyY');
